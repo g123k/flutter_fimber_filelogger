@@ -1,0 +1,27 @@
+name: flutter_fimber_filelogger
+description: File Logger for Flutter Fimber
+version: 1.0.0
+author: Edouard Marquez <moi@edouard-marquez.me>
+homepage: https://github.com/g123k/flutter_fimber_filelogger
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flutter_fimber: '^0.3.0'
+
+  path_provider: '^1.2.0'
+  intl: '^0.15.8'
+  path: '^1.6.2'
+  synchronized: '^2.1.0+1'
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
