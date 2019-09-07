@@ -1,7 +1,9 @@
 
 # File Logger Tree for Fimber  
   
-A tree for the [Fimber Flutter library](https://pub.dev/packages/flutter_fimber) that will write the logs to a File.  
+[![Pub](https://img.shields.io/pub/v/flutter_fimber_filelogger.svg)](https://pub.dartlang.org/packages/flutter_fimber_filelogger)
+  
+A tree for the [Fimber Flutter library](https://pub.dev/packages/flutter_fimber) that will write the logs to a File for each day.  
 
 ## Getting started
 ### 1) Dependency setup
@@ -9,7 +11,7 @@ A tree for the [Fimber Flutter library](https://pub.dev/packages/flutter_fimber)
 First import the library to your project in your `pubspec.yaml`:  
   
 ```yaml
-  flutter_fimber_filelogger: ^1.0.1
+  flutter_fimber_filelogger: ^1.0.2
 ```
 
 ### 2) Import the library in your Dart code
@@ -33,4 +35,6 @@ An auto-clean mechanism is available, where you have to specify the number of da
 
 ```dart
 Fimber.plantTree(FileLoggerTree(numberOfDays: 5));  
-```  
+```
+
+To disable it, just pass a `null` value.

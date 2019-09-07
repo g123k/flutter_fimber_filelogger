@@ -26,6 +26,7 @@ class FileLoggerTree extends LogTree {
   final List<String> levels;
 
   /// The number of days to keep the log files onto the disk
+  /// If you want to disable the auto-clean mecanism, just pass a null value
   final int numberOfDays;
 
   /// The format for each file (eg: yyyy-MM-dd => 2019-08-24.log)
@@ -53,14 +54,14 @@ class FileLoggerTree extends LogTree {
   ///
   /// The logs will be store in the following folder
   /// [getApplicationDocumentsDirectory]/logs
-  FileLoggerTree(
-      {this.levels = FileLoggerLevels.ALL,
-      this.numberOfDays = 1,
-      this.logDateFormat = 'MM/dd/yyyy HH:mm:ss',
-      this.fileDateFormat = 'yyyy-MM-dd',
-      String locale})
+  FileLoggerTree({this.levels = FileLoggerLevels.ALL,
+    this.numberOfDays = 1,
+    this.logDateFormat = 'MM/dd/yyyy HH:mm:ss',
+    this.fileDateFormat = 'yyyy-MM-dd',
+    String locale})
       : assert(levels != null),
-        assert(numberOfDays >= 1, 'The number of days must be >= 1'),
+        assert(numberOfDays == null || numberOfDays >=
+            1, 'The number of days must be null (auto-clean disabled) or >= 1'),
         assert(logDateFormat != null),
         assert(fileDateFormat != null),
         _lock = Lock(),
@@ -80,19 +81,21 @@ class FileLoggerTree extends LogTree {
   }
 
   Future _cleanFiles() async {
-    List<FileSystemEntity> files =
-        await FileLoggerUtils.listDirContentsAsync(_directory);
-    DateTime now = DateTime.now();
+    if (numberOfDays != null) {
+      List<FileSystemEntity> files =
+      await FileLoggerUtils.listDirContentsAsync(_directory);
+      DateTime now = DateTime.now();
 
-    DateTime minDate = DateTime(now.year, now.month, now.day)
-        .subtract(Duration(days: numberOfDays - 1));
+      DateTime minDate = DateTime(now.year, now.month, now.day)
+          .subtract(Duration(days: numberOfDays - 1));
 
-    for (var file in files) {
-      var date =
-          _fileDateFormat.parse(path.basenameWithoutExtension(file.path));
+      for (var file in files) {
+        var date =
+        _fileDateFormat.parse(path.basenameWithoutExtension(file.path));
 
-      if (date.isBefore(minDate)) {
-        await file.delete();
+        if (date.isBefore(minDate)) {
+          await file.delete();
+        }
       }
     }
 
@@ -125,8 +128,8 @@ class FileLoggerTree extends LogTree {
     });
   }
 
-  String _getLog(
-      String tag, String level, String msg, ex, StackTrace stacktrace) {
+  String _getLog(String tag, String level, String msg, ex,
+      StackTrace stacktrace) {
     _buffer.clear();
 
     _buffer.write(_formattedDateTime);
@@ -153,6 +156,7 @@ class FileLoggerTree extends LogTree {
   String get _formattedDateTime => _logDateFormat.format(DateTime.now());
 
   DateFormat get _fileDateFormat => DateFormat(fileDateFormat);
+
   DateFormat get _logDateFormat => DateFormat(logDateFormat);
 }
 
