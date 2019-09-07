@@ -9,7 +9,7 @@ A tree for the [Fimber Flutter library](https://pub.dev/packages/flutter_fimber)
 First import the library to your project in your `pubspec.yaml`:  
   
 ```yaml
-  flutter_fimber_filelogger: 1.0.0
+  flutter_fimber_filelogger: ^1.0.1
 ```
 
 ### 2) Import the library in your Dart code

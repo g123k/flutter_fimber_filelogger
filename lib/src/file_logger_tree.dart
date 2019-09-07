@@ -29,10 +29,10 @@ class FileLoggerTree extends LogTree {
   final int numberOfDays;
 
   /// The format for each file (eg: yyyy-MM-dd => 2019-08-24.log)
-  final DateFormat _fileDateFormat;
+  final String fileDateFormat;
 
   /// The format of the date before each log
-  final DateFormat _logDateFormat;
+  final String logDateFormat;
 
   // Internal stuff
   final StringBuffer _buffer;
@@ -56,14 +56,13 @@ class FileLoggerTree extends LogTree {
   FileLoggerTree(
       {this.levels = FileLoggerLevels.ALL,
       this.numberOfDays = 1,
-      String logItemDateFormat = 'MM/dd/yyyy HH:mm:ss',
-      String fileDateFormat = 'yyyy-MM-dd'})
+      this.logDateFormat = 'MM/dd/yyyy HH:mm:ss',
+      this.fileDateFormat = 'yyyy-MM-dd',
+      String locale})
       : assert(levels != null),
         assert(numberOfDays >= 1, 'The number of days must be >= 1'),
+        assert(logDateFormat != null),
         assert(fileDateFormat != null),
-        assert(logItemDateFormat != null),
-        _fileDateFormat = DateFormat(fileDateFormat),
-        _logDateFormat = DateFormat(logItemDateFormat),
         _lock = Lock(),
         _buffer = StringBuffer();
 
@@ -152,6 +151,9 @@ class FileLoggerTree extends LogTree {
   }
 
   String get _formattedDateTime => _logDateFormat.format(DateTime.now());
+
+  DateFormat get _fileDateFormat => DateFormat(fileDateFormat);
+  DateFormat get _logDateFormat => DateFormat(logDateFormat);
 }
 
 class FileLoggerLevels {
