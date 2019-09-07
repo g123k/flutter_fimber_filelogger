@@ -9,9 +9,16 @@ A tree for the [Fimber Flutter library](https://pub.dev/packages/flutter_fimber)
 ### 1) Dependency setup
   
 First import the library to your project in your `pubspec.yaml`:  
-  
+
+- 1.1.x uses `intl` 0.16+
+- 1.0.x uses `intl` 0.15.x
+
 ```yaml
-  flutter_fimber_filelogger: ^1.0.2
+flutter_fimber_filelogger: ^1.1.0
+
+# or 
+
+flutter_fimber_filelogger: ^1.0.2
 ```
 
 ### 2) Import the library in your Dart code

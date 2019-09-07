@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
 
-    Fimber.d('Counter clciked $_counter times!');
+    Fimber.d('Counter clicked $_counter times!');
   }
 
   @override
