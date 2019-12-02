@@ -1,3 +1,7 @@
+## [1.1.1] - 2nd December 2019  
+  
+* Dependencies upgraded
+
 ## [1.1.0] - 7st September 2019  
   
 * `intl` dependency upgraded to 0.16
