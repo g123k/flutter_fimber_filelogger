@@ -14,7 +14,7 @@ First import the library to your project in your `pubspec.yaml`:
 - 1.0.x uses `intl` 0.15.x
 
 ```yaml
-flutter_fimber_filelogger: ^1.1.0
+flutter_fimber_filelogger: ^1.1.1+1
 
 # or 
 
