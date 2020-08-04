@@ -5,18 +5,18 @@ author: Edouard Marquez <moi@edouard-marquez.me>
 homepage: https://github.com/g123k/flutter_fimber_filelogger
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.8.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  flutter_fimber: '^0.3.2'
+  flutter_fimber: ^0.4.4
 
-  path_provider: '^1.4.5'
-  intl: '^0.16.0'
-  path: '^1.6.4'
-  synchronized: '^2.1.0+2'
+  path_provider: ^1.6.11
+  intl: ^0.16.1
+  path: ^1.7.0
+  synchronized: ^2.2.0+2
 
 dev_dependencies:
   flutter_test:
