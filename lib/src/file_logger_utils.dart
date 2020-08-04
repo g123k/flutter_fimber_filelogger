@@ -6,10 +6,11 @@ class FileLoggerUtils {
 
   /// List the content of a directory [dir]
   static Future<List<FileSystemEntity>> listDirContentsAsync(Directory dir) {
-    var files = <FileSystemEntity>[];
-    var completer = Completer<List<FileSystemEntity>>();
-    var lister = dir.list(recursive: false);
-    lister.listen((file) => files.add(file),
+    List<FileSystemEntity> files = <FileSystemEntity>[];
+    Completer<List<FileSystemEntity>> completer =
+        Completer<List<FileSystemEntity>>();
+    Stream<FileSystemEntity> lister = dir.list(recursive: false);
+    lister.listen((FileSystemEntity file) => files.add(file),
         onDone: () => completer.complete(files));
     return completer.future;
   }

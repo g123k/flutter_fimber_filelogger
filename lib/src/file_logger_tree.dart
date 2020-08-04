@@ -71,7 +71,7 @@ class FileLoggerTree extends LogTree {
   /// Returns the directory where the files are stored
   Directory get directory => _directory;
 
-  Future _init() async {
+  Future<void> _init() async {
     String baseDirPath = (await getApplicationDocumentsDirectory()).path;
     baseDirPath = '$baseDirPath/';
 
@@ -81,7 +81,7 @@ class FileLoggerTree extends LogTree {
     await _cleanFiles();
   }
 
-  Future _cleanFiles() async {
+  Future<void> _cleanFiles() async {
     if (numberOfDays != null) {
       List<FileSystemEntity> files =
           await FileLoggerUtils.listDirContentsAsync(_directory);
@@ -90,8 +90,8 @@ class FileLoggerTree extends LogTree {
       DateTime minDate = DateTime(now.year, now.month, now.day)
           .subtract(Duration(days: numberOfDays - 1));
 
-      for (var file in files) {
-        var date =
+      for (FileSystemEntity file in files) {
+        DateTime date =
             _fileDateFormat.parse(path.basenameWithoutExtension(file.path));
 
         if (date.isBefore(minDate)) {
@@ -109,12 +109,13 @@ class FileLoggerTree extends LogTree {
   List<String> getLevels() => levels;
 
   @override
-  log(String level, String msg, {String tag, ex, StackTrace stacktrace}) {
+  void log(String level, String msg,
+      {String tag, Object ex, StackTrace stacktrace}) {
     _logAsync(level, msg, tag: tag, ex: ex, stacktrace: stacktrace);
   }
 
   void _logAsync(String level, String msg,
-      {String tag, ex, StackTrace stacktrace}) async {
+      {String tag, Object ex, StackTrace stacktrace}) async {
     await _lock.synchronized(() async {
       if (_fileDate == null) {
         await _init();
@@ -130,7 +131,7 @@ class FileLoggerTree extends LogTree {
   }
 
   String _getLog(
-      String tag, String level, String msg, ex, StackTrace stacktrace) {
+      String tag, String level, String msg, Object ex, StackTrace stacktrace) {
     _buffer.clear();
 
     _buffer.write(_formattedDateTime);
@@ -140,7 +141,7 @@ class FileLoggerTree extends LogTree {
       _buffer.write('-');
     }
     _buffer.write(level);
-    _buffer.write('] :');
+    _buffer.write(']:');
     _buffer.writeln(msg);
 
     if (ex != null) {
@@ -164,13 +165,13 @@ class FileLoggerTree extends LogTree {
 class FileLoggerLevels {
   const FileLoggerLevels._();
 
-  static const String LEVEL_DEBUG = "D";
-  static const String LEVEL_INFO = "I";
-  static const String LEVEL_WARNING = "W";
-  static const String LEVEL_ERROR = "E";
-  static const String LEVEL_VERBOSE = "V";
+  static const String LEVEL_DEBUG = 'D';
+  static const String LEVEL_INFO = 'I';
+  static const String LEVEL_WARNING = 'W';
+  static const String LEVEL_ERROR = 'E';
+  static const String LEVEL_VERBOSE = 'V';
 
-  static const List<String> ALL = [
+  static const List<String> ALL = <String>[
     LEVEL_DEBUG,
     LEVEL_INFO,
     LEVEL_WARNING,
