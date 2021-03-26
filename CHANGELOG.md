@@ -1,3 +1,7 @@
+## [2.0.0] - 26th March 2021  
+  
+* Null safety support
+
 ## [1.3.0] - 26th March 2021  
   
 * All dependencies upgraded (including Fimber 0.6.2)

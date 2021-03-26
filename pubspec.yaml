@@ -1,6 +1,6 @@
 name: flutter_fimber_filelogger
 description: A file logger tree for Flutter Fimber (which includes an auto-clean mechanism)
-version: 1.3.0
+version: 2.0.0
 author: Edouard Marquez <moi@edouard-marquez.me>
 homepage: https://github.com/g123k/flutter_fimber_filelogger
 
