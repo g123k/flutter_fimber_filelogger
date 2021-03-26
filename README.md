@@ -10,6 +10,7 @@ A tree for the [Fimber Flutter library](https://pub.dev/packages/flutter_fimber)
   
 First import the library to your project in your `pubspec.yaml`:  
 
+- 1.2.x uses `intl` 0.17+
 - 1.1.x uses `intl` 0.16+
 - 1.0.x uses `intl` 0.15.x
 

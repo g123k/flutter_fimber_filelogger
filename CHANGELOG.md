@@ -1,3 +1,7 @@
+## [1.3.0] - 26th March 2021  
+  
+* All dependencies upgraded (including Fimber 0.6.2)
+
 ## [1.2.0] - 4th August 2020  
   
 * Flutter fimber dependency upgraded to 0.4.4
