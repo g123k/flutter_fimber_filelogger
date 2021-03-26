@@ -38,9 +38,9 @@ class FileLoggerTree extends LogTree {
   // Internal stuff
   final StringBuffer _buffer;
   final Lock _lock;
-  Directory _directory;
-  File _file;
-  DateTime _fileDate;
+  Directory? _directory;
+  late File _file;
+  DateTime? _fileDate;
 
   /// Instantiate a new tree for [Fimber] that will write the logs to disk
   ///
@@ -59,7 +59,7 @@ class FileLoggerTree extends LogTree {
       this.numberOfDays = 1,
       this.logDateFormat = 'MM/dd/yyyy HH:mm:ss',
       this.fileDateFormat = 'yyyy-MM-dd',
-      String locale})
+      String? locale})
       : assert(levels != null),
         assert(numberOfDays == null || numberOfDays >= 1,
             'The number of days must be null (auto-clean disabled) or >= 1'),
@@ -69,14 +69,14 @@ class FileLoggerTree extends LogTree {
         _buffer = StringBuffer();
 
   /// Returns the directory where the files are stored
-  Directory get directory => _directory;
+  Directory? get directory => _directory;
 
   Future<void> _init() async {
     String baseDirPath = (await getApplicationDocumentsDirectory()).path;
     baseDirPath = '$baseDirPath/';
 
     _directory = Directory(path.join(baseDirPath, 'logs'));
-    await _directory.create();
+    await _directory!.create();
 
     await _cleanFiles();
   }
@@ -84,7 +84,7 @@ class FileLoggerTree extends LogTree {
   Future<void> _cleanFiles() async {
     if (numberOfDays != null) {
       List<FileSystemEntity> files =
-          await FileLoggerUtils.listDirContentsAsync(_directory);
+          await FileLoggerUtils.listDirContentsAsync(_directory!);
       DateTime now = DateTime.now();
 
       DateTime minDate = DateTime(now.year, now.month, now.day)
@@ -102,7 +102,7 @@ class FileLoggerTree extends LogTree {
 
     _fileDate = DateTime.now();
     _file = File(
-        path.join(_directory.path, '${_fileDateFormat.format(_fileDate)}.log'));
+        path.join(_directory!.path, '${_fileDateFormat.format(_fileDate!)}.log'));
   }
 
   @override
@@ -110,18 +110,18 @@ class FileLoggerTree extends LogTree {
 
   @override
   void log(String level, String msg,
-      {String tag, Object ex, StackTrace stacktrace}) {
+      {String? tag, Object? ex, StackTrace? stacktrace}) {
     _logAsync(level, msg, tag: tag, ex: ex, stacktrace: stacktrace);
   }
 
   void _logAsync(String level, String msg,
-      {String tag, Object ex, StackTrace stacktrace}) async {
+      {String? tag, Object? ex, StackTrace? stacktrace}) async {
     await _lock.synchronized(() async {
       if (_fileDate == null) {
         await _init();
       }
 
-      if (!FileLoggerUtils.isSameDay(DateTime.now(), _fileDate)) {
+      if (!FileLoggerUtils.isSameDay(DateTime.now(), _fileDate!)) {
         await _cleanFiles();
       }
 
@@ -131,7 +131,7 @@ class FileLoggerTree extends LogTree {
   }
 
   String _getLog(
-      String tag, String level, String msg, Object ex, StackTrace stacktrace) {
+      String? tag, String level, String msg, Object? ex, StackTrace? stacktrace) {
     _buffer.clear();
 
     _buffer.write(_formattedDateTime);
