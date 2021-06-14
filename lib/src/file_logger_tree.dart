@@ -27,7 +27,7 @@ class FileLoggerTree extends LogTree {
 
   /// The number of days to keep the log files onto the disk
   /// If you want to disable the auto-clean mechanism, just pass a null value
-  final int numberOfDays;
+  final int? numberOfDays;
 
   /// The format for each file (eg: yyyy-MM-dd => 2019-08-24.log)
   final String fileDateFormat;
@@ -60,11 +60,8 @@ class FileLoggerTree extends LogTree {
       this.logDateFormat = 'MM/dd/yyyy HH:mm:ss',
       this.fileDateFormat = 'yyyy-MM-dd',
       String? locale})
-      : assert(levels != null),
-        assert(numberOfDays == null || numberOfDays >= 1,
+      : assert(numberOfDays == null || numberOfDays >= 1,
             'The number of days must be null (auto-clean disabled) or >= 1'),
-        assert(logDateFormat != null),
-        assert(fileDateFormat != null),
         _lock = Lock(),
         _buffer = StringBuffer();
 
@@ -88,7 +85,7 @@ class FileLoggerTree extends LogTree {
       DateTime now = DateTime.now();
 
       DateTime minDate = DateTime(now.year, now.month, now.day)
-          .subtract(Duration(days: numberOfDays - 1));
+          .subtract(Duration(days: numberOfDays! - 1));
 
       for (FileSystemEntity file in files) {
         DateTime date =
@@ -101,8 +98,8 @@ class FileLoggerTree extends LogTree {
     }
 
     _fileDate = DateTime.now();
-    _file = File(
-        path.join(_directory!.path, '${_fileDateFormat.format(_fileDate!)}.log'));
+    _file = File(path.join(
+        _directory!.path, '${_fileDateFormat.format(_fileDate!)}.log'));
   }
 
   @override
@@ -130,8 +127,8 @@ class FileLoggerTree extends LogTree {
     });
   }
 
-  String _getLog(
-      String? tag, String level, String msg, Object? ex, StackTrace? stacktrace) {
+  String _getLog(String? tag, String level, String msg, Object? ex,
+      StackTrace? stacktrace) {
     _buffer.clear();
 
     _buffer.write(_formattedDateTime);
